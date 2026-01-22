@@ -1,12 +1,19 @@
 import java.util.Scanner;
 
 public class BooksMenu {
+    private static Book getExpensiveBook(Book book1, Book book2) {
+        if (book1.getPrice() < book2.getPrice()) { // Compare prices of the two books
+            return book2; // Return the second book if its price is higher
+        } else {
+            return book1; // Return the first book otherwise
+        }
+    }
     public static void main(String s[]) {
         Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         Book[] books = new Book[10];
         int bkIdx = 0;
         while(true) {
-            System.out.println("Press 1 to view books, 2 to add books, any other key to exit");
+            System.out.println("Press 1 to view books, 2 to add books, 3 to compare prices, any other key to exit");
             String userAction = scanner.nextLine();
             if (userAction.equals("1")) {
                 for(int i=0;i<books.length;i++) {
@@ -30,7 +37,19 @@ public class BooksMenu {
                 bkTmp.setAuthor(tmpAuthor);
                 bkTmp.setPrice(tmpPrice);
                 books[bkIdx++] = bkTmp;
+            } else if (userAction.equals("3")) {
+                System.out.println("Enter index of first book to compare");
+                int book1Idx = Integer.parseInt(scanner.nextLine());
+                System.out.println("Enter index of second book to compare");
+                int book2Idx = Integer.parseInt(scanner.nextLine());
 
+                if (books[book1Idx] != null && books[book2Idx] != null) {
+                    // Compare the books and print the details of the more expensive book
+                    System.out.println("The details of expensive book is \n" +
+                                       getExpensiveBook(books[book1Idx], books[book2Idx]));
+                } else {
+                    System.out.println("One of the books is null"); // Error message if an index is empty
+                }
             } else {
                 break;
             }
